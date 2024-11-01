@@ -1,0 +1,52 @@
+﻿@model IEnumerable<LezzetAtolyesi.Models.Kategoriler>
+
+@{
+    ViewData["Title"] = "Kategoriler";
+    Layout = "~/Views/Shared/_yonetimtema.cshtml";
+}
+
+<p>
+    <a asp-action="KategoriEkle">Yeni Kategori</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+           @*  <th>
+               ID
+            </th> *@
+            <th>
+                Sıra 
+            </th>
+            <th>
+                Kategori Adı
+            </th>
+            <th>
+                Aktif
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            @* <td>
+                 @Html.DisplayFor(modelItem => item.KategoriId)
+            </td> *@
+               @*  <td>
+                    @Html.DisplayFor(modelItem => item.Kategorisira)
+                </td> *@
+            <td>
+                @Html.DisplayFor(modelItem => item.Kategoriadi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aktif)
+            </td>
+            <td>
+                <a asp-action="KategoriGetir" asp-route-id="@item.KategoriId">Kategori Düzenle</a> |
+                <a asp-action="KategoriYemekler" asp-route-id="@item.KategoriId" >Yemekler</a> |
+                    <a asp-action="KategoriSil" asp-route-id="@item.KategoriId" onclick="return confirm('Bu kategori silinsin mi?')">Sil</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

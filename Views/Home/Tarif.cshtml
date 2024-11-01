@@ -1,0 +1,60 @@
+﻿@model LezzetAtolyesi.Models.TarifYorumlar
+
+@{
+    ViewData["Title"] = "Tarif";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<center>
+    <h4>@Model.tarif.Yemekadi</h4>
+</center>
+<center><h5>Kategori: @Model.tarif.Kategori.Kategoriadi</h5></center>
+<div>
+    @Html.Raw(Model.tarif.Tarif)<br /> @* //html.raw html kodu değil text alır. *@
+     <small>@Model.tarif.Eklemetarihi tarihinde eklendi.</small><br />
+   
+    @if (Model.yorumlar.Count>0)
+    {
+        <h5 style="margin-top:15px">Yorumlar:</h5>
+    }
+
+    @foreach (var item in Model.yorumlar)
+    {
+        @Html.Raw(item.Yorum)<br />
+        <small style="margin-top:5px;margin-bottom:7px"> @item.Uye.Adi @item.Uye.Soyadi tarafından @item.Eklemetarihi tarihinde gönderildi.</small><br />
+    }
+
+</div>
+
+@using System.Security.Claims;
+@{
+    try
+    {
+        string kulID = User.FindFirstValue(ClaimTypes.NameIdentifier).ToString();
+
+        <form asp-action="YorumYap" asp-controller="Home" method="post">
+            
+            <input type="hidden" id="UyeId" name="UyeId" value="@kulID" />
+            <input type="hidden" id="TarifId" name="TarifId" value="@Model.tarif.TarifId" />
+
+            <textarea id="Yorum" name="Yorum"> 
+                
+            </textarea>
+
+            <input id="btnYorumGonder" type="submit" value="Yorum Gönder" />
+        </form> 
+        @if (@TempData["mesaj"]!=null)
+        {
+            <div class="alert alert-success">
+                @TempData["mesaj"]
+            </div>
+        }
+        
+    }
+    catch
+    {
+        
+    }
+}
+
+<a asp-action="TumTarifler" class="btn btn-dark">Geri</a>

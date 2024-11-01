@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - LezzetAtolyesi</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/LezzetAtolyesi.styles.css" asp-append-version="true" />
+    <style>
+        button:focus {
+            outline: 0;
+        }
+
+        .navbar .dropdown-menu .form-control {
+            width: 200px;
+        }
+    </style>
+</head>
+<body style="background: linear-gradient(to bottom,#fff9f2 , #ede2d5 100%)">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/bglogo.png" alt="Photo" height="90px" width="90px" />
+                </a>
+                @* <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">LezzetAtolyesi</a> *@
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto">
+                        @{
+                            YemektarifleriDbContext db = new YemektarifleriDbContext();
+                            var ustmenu = db.Menulers.Where(eleman => eleman.UstId == null && eleman.Silindi == false && eleman.Aktif == true).OrderBy(e => e.Sira).ToList();
+                            foreach (var item in ustmenu)
+                            {
+                                var altmenu = db.Menulers.Where(eleman => eleman.UstId == item.MenuId && eleman.Silindi == false && eleman.Aktif == true).OrderBy(e => e.Sira).ToList();
+                                if (altmenu.Count == 0)
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="@item.Url">@item.Baslik</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown@item.MenuId" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            @item.Baslik
+                                        </a>
+                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown@item.MenuId">
+                                            @foreach (var item2 in altmenu)
+                                            {
+                                                <li><a class="dropdown-item" href="@item2.Url">@item2.Baslik</a></li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                            }
+                        }
+                    </ul>
+
+                    <ul class="navbar-nav ms-auto flex-row">
+                        @using System.Security.Claims;
+                        @{
+                            try
+                            {
+                                string kuladi = User.FindFirstValue(ClaimTypes.Email).ToString();
+                                <li class="nav-item">
+                                    <div class="form-group">
+                                        <small>
+                                            <center>Hoşgeldiniz! <br /> @kuladi</center>
+                                            <a href="/Giris/CikisYap" onclick="return confirm('Çıkış yapmak istediğinize emin misiniz?')"><center>Çıkış</center></a>
+                                        </small>
+                                    </div>
+                                </li>
+                            }
+                            catch
+                            {
+                                <li class="nav-item dropdown">
+                                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-bs-toggle="dropdown" aria-expanded="false" style="background-color:#ab9585;color:white">
+                                        Giriş
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenu1">
+                                        <li class="p-3">
+                                            <form class="form" role="form" method="post" action="/Giris/GirisYap">
+                                                <div class="form-group mb-3" >
+                                                    <input id="Eposta" placeholder="E-Posta" name="Eposta" class="form-control form-control-sm" type="text">
+                                                </div>
+                                                <div class="form-group mb-3" >
+                                                    <input id="Parola" placeholder="Parola" name="Parola" class="form-control form-control-sm" type="password">
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <center> <button type="submit" class="btn btn-block" style="background-color:#ab9585;color:white">Giriş</button></center>
+                                                </div>
+                                                <div class="form-group text-center">
+                                                    <small><a href="#" style="color:#ab9585" onclick="return confirm('Lütfen bizimle iletişime geçin!')">Şifremi Unuttum!</a></small> <br />
+                                                    <small><a href="#" style="color:#ab9585" onclick="return confirm('Yalnızca yönetici yeni kayıt ekleyebilir.Üye olmak istiyorsanız bizimle iletişime geçin.')">Kaydol</a></small>
+                                                </div>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+   @*  <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - LezzetAtolyesi - <a asp-area="" asp-controller="Home"></a>
+        </div> 
+    </footer>*@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

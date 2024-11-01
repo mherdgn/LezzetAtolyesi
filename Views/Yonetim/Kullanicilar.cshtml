@@ -1,0 +1,64 @@
+﻿@model IEnumerable<LezzetAtolyesi.Models.Kullanicilar>
+
+@{
+    ViewData["Title"] = "Kullanicilar";
+    Layout = "~/Views/Shared/_yonetimtema.cshtml";
+}
+
+
+<p>
+    <a asp-action="KullaniciEkle">Yeni Kullanıcı</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               Ad
+            </th>
+            <th>
+               Soyad
+            </th>
+            <th>
+               E Posta
+            </th>
+            <th>
+               Telefon
+            </th>
+            <th>
+               Yetki
+            </th>
+            <th>
+               Aktiflik
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Adi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Soyadi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Eposta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefon)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Yetki)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aktif)
+            </td>
+            <td>
+                <a asp-action="KullaniciGetir" asp-route-id="@item.KullaniciId">Kullanıcı Bilgilerini Düzenle</a> |
+                <a asp-action="KullaniciSil" asp-route-id="@item.KullaniciId" onclick="return confirm('Kullanıcı silinsin mi?')">Kullanıcı Sil</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

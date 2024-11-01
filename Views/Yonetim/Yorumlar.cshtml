@@ -1,0 +1,69 @@
+﻿@model IEnumerable<LezzetAtolyesi.Models.Yorumlar>
+
+@{
+    ViewData["Title"] = "Yorumlar";
+    Layout = "~/Views/Shared/_yonetimtema.cshtml";
+}
+
+ 
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-6">
+            <select id="listelemeturu" name="listelemeturu" class="form-control">
+                <option value="Tumu">Hepsini Göster</option>
+                <option value="Onayli">Onaylananları Göster</option>
+                <option value="Onaysiz">Onaylanmayanları Göster</option>
+            </select>
+        </div>
+        <div class="col-6">
+            <input type="submit" value="Listele" class="btn btn-danger" />
+        </div>
+    </div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Yorum
+            </th>
+            <th>
+               Ekleme Tarihi
+            </th>
+            <th>
+                Onay Durumu
+            </th>
+           
+            <th>
+                Üye
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Yorum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Eklemetarihi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aktif)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TarifNavigation.Yemekadi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Uye.Adi) &nbsp;@Html.DisplayFor(modelItem => item.Uye.Soyadi)&nbsp;@Html.DisplayFor(modelItem => item.Uye.Eposta)
+            </td>
+            <td>
+                    <a asp-action="Onayla" asp-route-id="@item.YorumId" onclick="return confirm('Onay durumu değişsin mi?')">Onay/Gizle</a> |
+                    <a asp-action="YorumuSil" asp-route-id="@item.YorumId" onclick="return confirm('Yorum silinsin mi?')">Yorumu Sil</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

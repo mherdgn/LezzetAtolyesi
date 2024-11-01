@@ -1,0 +1,37 @@
+﻿@model LezzetAtolyesi.Models.Kategoriler
+
+@{
+    ViewData["Title"] = "KategoriEkle";
+    Layout = "~/Views/Shared/_yonetimtema.cshtml";
+}
+
+<h4>Kategoriler</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="KategoriEkle">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Kategoriadi" class="control-label">Kategori Adı</label>
+                <input asp-for="Kategoriadi" class="form-control" />
+                <span asp-validation-for="Kategoriadi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Aktif" class="control-label">Aktiflik</label>
+                <select asp-for="Aktif" class="form-control">
+                    <option value="True">Evet</option>
+                    <option value="False">Hayır</option>
+                </select>
+                <span asp-validation-for="Aktif" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Ekle" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Kategoriler">Geri</a>
+</div>
+

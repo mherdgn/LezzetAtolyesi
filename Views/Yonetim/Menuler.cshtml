@@ -1,0 +1,67 @@
+﻿@model IEnumerable<LezzetAtolyesi.Models.Menuler>
+
+@{
+    ViewData["Title"] = "Menuler";
+    Layout = "~/Views/Shared/_yonetimtema.cshtml";
+}
+
+<h1>Menüler</h1>
+
+<p>
+    <a asp-action="MenuEkle">Yeni Menü</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Başlık
+            </th>
+            <th>
+                Url
+            </th>
+            <th>
+                Sıra
+            </th>
+            <th>
+                Üst Menü
+            </th>
+            <th>
+                Aktiflik
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Baslik)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Url)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sira)
+            </td>
+            <td>
+                @*Html.DisplayFor(modelItem => item.UstId)*@
+                    @{
+                        YemektarifleriDbContext db = new YemektarifleriDbContext();
+                        var m = db.Menulers.Where(m => m.MenuId == item.UstId).FirstOrDefault();
+                        if (m != null)
+                        {
+                            @m.Baslik
+                        }
+                    }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aktif)
+            </td>
+            <td>
+                <a asp-action="MenuGetir" asp-route-id="@item.MenuId">Düzenle</a> |
+                <a asp-action="MenuSil" asp-route-id="@item.MenuId" onclick="return confirm ('Menü öğesi silinsin mi?')" >Sil</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

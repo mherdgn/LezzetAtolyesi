@@ -1,0 +1,72 @@
+﻿@model IEnumerable<LezzetAtolyesi.Models.YemekTarifleri>
+
+@{
+    ViewData["Title"] = "KategoriYemekler";
+    Layout = "~/Views/Shared/_yonetimtema.cshtml";
+}
+
+<h1>KategoriYemekler</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               Yemek Adı
+            </th>
+            <th>
+                Tarif
+            </th>
+            <th>
+               Sıra
+            </th>
+            <th>
+                Ekleme Tarihi
+            </th>
+            <th>
+               Aktif
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Silindi)
+            </th>
+            <th>
+                Kategori Adı
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Yemekadi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tarif)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sira)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Eklemetarihi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aktif)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Silindi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kategori.KategoriId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.TarifId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.TarifId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.TarifId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

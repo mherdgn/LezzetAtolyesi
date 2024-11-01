@@ -1,0 +1,21 @@
+﻿@* @model LezzetAtolyesi.Models.YemekTarifleri
+
+@{
+    ViewData["Title"] = "Tarif";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<h4>
+    @Model.Yemekadi
+</h4>
+<h5>
+    Kategori: @Model.Kategori.Kategoriadi
+</h5>
+<div>
+    @Html.Raw(Model.Tarif) <br />
+    <small>@Model.Eklemetarihi tarihinde eklendi.</small>
+</div>
+
+<a asp-action="TumTarifler">Geri</a>
+
+//yeni, belki de orta. *@

@@ -1,0 +1,60 @@
+﻿@model LezzetAtolyesi.Models.YemekTarifleri
+
+@{
+    ViewData["Title"] = "TarifEkle";
+    Layout = "~/Views/Shared/_yonetimtema.cshtml";
+}
+<script src="https://cdn.ckeditor.com/4.19.0/standard/ckeditor.js"></script>
+<h4>YemekTarifleri</h4>
+
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="TarifEkle">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Yemekadi" class="control-label">Yemek Adı</label>
+                <input asp-for="Yemekadi" class="form-control" />
+                <span asp-validation-for="Yemekadi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tarif" class="control-label">Tarif</label>
+                <textarea asp-for="Tarif" name="Tarif"></textarea>
+                <script>
+                    CKEDITOR.replace("Tarif")
+                </script>
+                <span asp-validation-for="Tarif" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sira" class="control-label">Sıra</label>
+                <input asp-for="Sira" class="form-control" />
+                <span asp-validation-for="Sira" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="KategoriId" class="control-label">Kategori Adı</label>
+                <select asp-for="KategoriId" class ="form-control" asp-items="ViewBag.KategoriId"></select>
+            </div>
+           @*  <div class="form-group">
+                <label asp-for="Eklemetarihi" class="control-label">Ekleme Tarihi</label>
+                <input asp-for="Eklemetarihi" class="form-control" />
+                <span asp-validation-for="Eklemetarihi" class="text-danger"></span>
+            </div> *@
+            <div class="form-group">
+                <label asp-for="Aktif" class="control-label">Aktiflik</label>
+                <select asp-for="Aktif" class="form-control">
+                    <option value="True">Evet</option>
+                    <option value="False">Hayır</option>
+                </select>  
+                <span asp-validation-for="Aktif" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Ekle" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Tarifler">Geri</a>
+</div>
+
